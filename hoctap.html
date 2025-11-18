@@ -1,132 +1,279 @@
 <!DOCTYPE html>
+
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Học tập — Lê Văn Phong</title>
-  <link rel="stylesheet" href="./style.css" />
+  <title>Shop LÂM QUỐC ĐẠI — Responsive</title>
+  <style>
+    /* Reset + base */
+    :root{
+      --accent:#0ea5a4;
+      --muted:#6b7280;
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --shadow: 0 6px 18px rgba(2,6,23,0.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#0f172a;background:var(--bg)}
+    a{color:inherit;text-decoration:none}
+
+    /* Container */
+    .container{max-width:1200px;margin:24px auto;padding:0 16px}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),#3b82f6);border-radius:10px;display:grid;place-items:center;color:white;font-weight:700}
+    nav{display:flex;gap:14px;align-items:center}
+    .nav-links{display:none}
+    .search{flex:1;max-width:420px}
+    .search input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #e6edf3}
+
+    /* Cart */
+    .actions{display:flex;gap:12px;align-items:center}
+    .cart-btn{position:relative;padding:8px 10px;border-radius:10px;background:var(--card);box-shadow:var(--shadow);cursor:pointer}
+    .cart-count{position:absolute;top:-6px;right:-6px;background:#ef4444;color:white;border-radius:999px;padding:3px 6px;font-size:12px}
+
+    /* Responsive grid */
+    .hero{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+    .hero h1{margin:0;font-size:28px}
+    .grid{display:grid;grid-template-columns:repeat(1,1fr);gap:14px}
+
+    .card{background:var(--card);padding:12px;border-radius:12px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+    .card img{width:100%;height:180px;object-fit:cover;border-radius:8px}
+    .card h3{margin:10px 0 6px;font-size:16px}
+    .price-row{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:700}
+    .btn{padding:8px 12px;border-radius:10px;border:0;background:var(--accent);color:white;cursor:pointer}
+
+    /* Cart sidebar */
+    .cart-panel{position:fixed;right:20px;top:20px;width:360px;max-width:92vw;background:var(--card);border-radius:12px;padding:12px;box-shadow:var(--shadow);transform:translateX(110%);transition:transform .25s ease;z-index:60}
+    .cart-panel.open{transform:translateX(0)}
+    .cart-item{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed #eef2f6}
+    .cart-item img{width:56px;height:56px;object-fit:cover;border-radius:8px}
+    .qty{display:flex;gap:6px;align-items:center}
+    .qty button{padding:4px 8px;border-radius:6px;border:1px solid #e6edf3;background:white;cursor:pointer}
+
+    /* Footer */
+    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:14px;padding:28px 0}
+
+    /* Media queries */
+    @media(min-width:640px){
+      .nav-links{display:flex}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .hero{flex-direction:row;align-items:center}
+    }
+    @media(min-width:1024px){
+      .grid{grid-template-columns:repeat(4,1fr)}
+    }
+
+    /* Simple accessible focus */
+    :focus{outline:3px solid rgba(14,165,164,0.18);outline-offset:2px}
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-wrap">
-      <a class="brand" href="index.html">
-        <div class="logo">LP</div>
-        <div class="brand-text">
-          <h1 class="site-title">Lê Văn Phong</h1>
-          <p class="site-subtitle">Tài liệu học tập CNTT</p>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">S</div>
+        <div>
+          <div style="font-weight:700">Shop LÂM QUỐC ĐẠI</div>
+          <div style="font-size:13px;color:var(--muted)">Thương mại điện tử — Responsive</div>
         </div>
-      </a>
-      <nav class="main-nav">
-        <a href="index.html">Trang chủ</a>
-        <a href="hoctap.html" class="active">Học tập</a>
-        <a href="kynangsong.html">Kỹ năng sống</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="page-intro">
-      <h2>Kho học liệu</h2>
-      <p>
-        Nơi tập hợp slide, bài thực hành, đề cương và tài nguyên mở cho sinh viên ngành CNTT.
-        Mỗi mục đều có mô tả ngắn, file mẫu và đường dẫn tham khảo.
-      </p>
-      <div class="filters">
-        <label>
-          <span>Tìm nhanh:</span>
-          <input type="search" placeholder="VD: 'Thiết kế Web', 'CSDL', 'Front-End'…" oninput="filterCards(this.value)" />
-        </label>
       </div>
-    </section>
 
-    <section class="grid" id="cards">
-      <!-- Ví dụ học liệu: có thể nhân bản các khối card bên dưới -->
-      <article class="card doc">
-        <div class="badge">Web</div>
-        <h3>Thiết kế Web & Front-End</h3>
-        <p>Slide lý thuyết, bộ bài tập HTML/CSS/JS căn bản, mẫu dự án 3-tuần.</p>
-        <div class="doc-actions">
-          <a class="btn" href="#" aria-disabled="true">Tải slide (PDF)</a>
-          <a class="btn btn-ghost" href="#" aria-disabled="true">Mã nguồn mẫu</a>
+      <div style="flex:1;display:flex;gap:12px;align-items:center;justify-content:flex-end">
+        <div class="search" aria-hidden>
+          <input id="search" placeholder="Tìm sản phẩm, ví dụ: áo, giày...">
         </div>
-        <ul class="tags">
-          <li>HTML</li><li>CSS</li><li>JavaScript</li>
-        </ul>
-      </article>
-
-      <article class="card doc">
-        <div class="badge">Cơ sở dữ liệu</div>
-        <h3>Hệ QTCSDL & SQL</h3>
-        <p>Bộ lab SQL Server, ERD, chỉ mục, tối ưu truy vấn; đề cương + đáp án gợi ý.</p>
-        <div class="doc-actions">
-          <a class="btn" href="#" aria-disabled="true">Lab (DOCX)</a>
-          <a class="btn btn-ghost" href="#" aria-disabled="true">Dataset mẫu</a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#">Trang chủ</a>
+          <a href="#">Sản phẩm</a>
+          <a href="#">Liên hệ</a>
+        </nav>
+        <div class="actions">
+          <button class="cart-btn" id="cartOpen" aria-expanded="false" aria-controls="cart-panel">
+            🛒 Giỏ hàng <span class="cart-count" id="cartCount">0</span>
+          </button>
         </div>
-        <ul class="tags">
-          <li>SQL Server</li><li>ERD</li><li>Tối ưu</li>
-        </ul>
-      </article>
+      </div>
+    </header>
 
-      <article class="card doc">
-        <div class="badge">Mạng</div>
-        <h3>Mạng máy tính</h3>
-        <p>Ghi chú lý thuyết, bài thực hành mô phỏng, câu hỏi tự ôn luyện theo chương.</p>
-        <div class="doc-actions">
-          <a class="btn" href="#" aria-disabled="true">Bài thực hành</a>
-          <a class="btn btn-ghost" href="#" aria-disabled="true">Câu hỏi ôn tập</a>
+    <main>
+      <section class="hero">
+        <div>
+          <h1>Chọn sản phẩm yêu thích — mọi thiết bị đều đẹp</h1>
+          <p style="color:var(--muted);margin:6px 0 0">Giao diện responsive: điện thoại, máy tính bảng, desktop. Mã mẫu để bạn bắt đầu nhanh.</p>
         </div>
-        <ul class="tags">
-          <li>OSI</li><li>TCP/IP</li><li>Routing</li>
-        </ul>
-      </article>
+      </section>
 
-      <article class="card doc">
-        <div class="badge">CNPM</div>
-        <h3>Công nghệ phần mềm</h3>
-        <p>Mẫu tài liệu SRS, use case, sơ đồ UML và checklist kiểm thử.</p>
-        <div class="doc-actions">
-          <a class="btn" href="#" aria-disabled="true">Template (DOCX)</a>
-          <a class="btn btn-ghost" href="#" aria-disabled="true">Ví dụ UML</a>
-        </div>
-        <ul class="tags">
-          <li>UML</li><li>Testing</li><li>SRS</li>
-        </ul>
-      </article>
-    </section>
+      <section>
+        <div class="grid" id="products"></div>
+      </section>
 
-    <section class="upload-hint card">
-      <h3>Hướng dẫn đăng tải tài liệu</h3>
-      <ol>
-        <li>Chuẩn bị file (PDF/DOCX/PPTX/ZIP code).</li>
-        <li>Đặt tên chuẩn: <code>HocPhan_Tuan_Muc-Tieu_PhiênBan</code> (VD: <code>WebCoBan_Tuan03_ThuVienLayout_v1.2.pdf</code>).</li>
-        <li>Đăng file lên Google Drive/OneDrive và dán link ở từng học liệu.</li>
-        <li>Cập nhật mô tả ngắn (mục tiêu, yêu cầu, cách chấm).</li>
-      </ol>
-      <p><em>Mẹo:</em> Có thể dùng GitHub/GitLab cho bài tập mã nguồn để sinh viên dễ clone và gửi PR.</p>
-    </section>
-  </main>
+    </main>
 
-  <footer class="site-footer">
-    <div class="container footer-wrap">
-      <p>© <span id="year"></span> Lê Văn Phong. All rights reserved.</p>
-      <nav class="footer-nav">
-        <a href="index.html">Trang chủ</a>
-        <a href="hoc-tap.html">Học tập</a>
-        <a href="ky-nang-song.html">Kỹ năng sống</a>
-      </nav>
+  </div>
+
+  <!-- Cart panel -->
+  <aside class="cart-panel" id="cart-panel" role="dialog" aria-label="Giỏ hàng">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <strong>Giỏ hàng</strong>
+      <button id="cartClose" aria-label="Đóng giỏ">✖</button>
     </div>
+    <div id="cartItems" style="max-height:56vh;overflow:auto"></div>
+    <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="color:var(--muted);font-size:13px">Tổng</div>
+        <div id="cartTotal" style="font-weight:800">0₫</div>
+      </div>
+      <div>
+        <button id="checkoutBtn" class="btn">Thanh toán</button>
+      </div>
+    </div>
+  </aside>
+
+  <footer>
+    © <span id="year"></span> Shop LÂM QUỐC ĐẠI❤️</I> · Mẫu responsive đơn giản
   </footer>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    function filterCards(q) {
-      const cards = document.querySelectorAll('#cards .card');
-      const term = q.trim().toLowerCase();
-      cards.forEach(c => {
-        const txt = c.innerText.toLowerCase();
-        c.style.display = txt.includes(term) ? '' : 'none';
+    // Mẫu dữ liệu sản phẩm — bạn có thể thay bằng API
+    const PRODUCTS = [
+      {id:1,name:'Áo thun cotton',price:150000,img:'https://thoitrangbigsize.vn/wp-content/uploads/2024/05/5-44.jpg'},
+      {id:2,name:'Giày thể thao',price:650000,img:'https://product.hstatic.net/1000143422/product/830763-01007-o_rendition_ecom_b450119241634ead8a73cf2ad7b9ebde_1024x1024.png'},
+      {id:3,name:'Balo du lịch',price:420000,img:'https://cdn.kosshop.vn/upload/plupload/2024/05/balo-roncato-panama-4-0-pc-15-6-tablet-11-usb-den3184.jpg'},
+      {id:4,name:'Mũ lưỡi trai',price:120000,img:'https://image.hm.com/assets/hm/ec/29/ec2949c56fbb9f8a1a5e94d1c04ea2bd089e752a.jpg?imwidth=1260'},
+      {id:5,name:'Áo khoác',price:520000,img:'https://n7media.coolmate.me/uploads/September2025/ao-phao-day-ultrawarm-puffer-xam-sang-1.jpg?aio=w-1100'},
+      {id:6,name:'Quần jean',price:350000,img:'https://n7media.coolmate.me/uploads/December2024/quan-jeans-nam-basics-dang-slim-fit-xanh-dam-2.jpg'},
+      {id:7,name:'Đồng hồ',price:980000,img:'https://donghoduyanh.com/images/products/2021/04/15/large/t1274071109101_1618476696.jpg.webp'},
+      {id:8,name:'Tai nghe',price:300000,img:'https://sony.scene7.com/is/image/sonyglobalsolutions/WH-CH520_Product_intro_Pink_01_M?$productIntroPlatemobile$&fmt=png-alpha'}
+    ];
+
+    // State
+    const state = {cart:{}};
+
+    // Utils
+    const formatVND = v=> v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '₫';
+
+    // Render products
+    const productsEl = document.getElementById('products');
+    function renderProducts(list){
+      productsEl.innerHTML = '';
+      list.forEach(p=>{
+        const card = document.createElement('article');
+        card.className='card';
+        card.innerHTML = `
+          <img src="${p.img}" alt="${p.name}">
+          <h3>${p.name}</h3>
+          <div class="price-row">
+            <div class="price">${formatVND(p.price)}</div>
+            <button class="btn" data-id="${p.id}">Thêm vào giỏ</button>
+          </div>
+        `;
+        productsEl.appendChild(card);
       });
     }
+
+    // Cart logic
+    function addToCart(id){
+      const prod = PRODUCTS.find(p=>p.id===id);
+      if(!prod) return;
+      if(state.cart[id]) state.cart[id].qty +=1;
+      else state.cart[id] = { ...prod, qty:1 };
+      updateCartUI();
+    }
+    function removeFromCart(id){
+      delete state.cart[id];
+      updateCartUI();
+    }
+    function changeQty(id,delta){
+      if(!state.cart[id]) return;
+      state.cart[id].qty += delta;
+      if(state.cart[id].qty <=0) removeFromCart(id);
+      updateCartUI();
+    }
+
+    function cartTotal(){
+      return Object.values(state.cart).reduce((s,i)=>s + i.price*i.qty,0);
+    }
+
+    function updateCartUI(){
+      const count = Object.values(state.cart).reduce((s,i)=>s+i.qty,0);
+      document.getElementById('cartCount').textContent = count;
+      const itemsEl = document.getElementById('cartItems');
+      itemsEl.innerHTML = '';
+      if(count===0){
+        itemsEl.innerHTML = '<div style="color:var(--muted);padding:8px 0">Giỏ hàng trống</div>';
+      } else {
+        Object.values(state.cart).forEach(item=>{
+          const el = document.createElement('div');
+          el.className='cart-item';
+          el.innerHTML = `
+            <img src="${item.img}" alt="${item.name}">
+            <div style="flex:1">
+              <div style="font-weight:700">${item.name}</div>
+              <div style="color:var(--muted);font-size:13px">${formatVND(item.price)} x ${item.qty}</div>
+            </div>
+            <div class="qty">
+              <button aria-label="Giảm" data-action="dec" data-id="${item.id}">-</button>
+              <div style="width:28px;text-align:center">${item.qty}</div>
+              <button aria-label="Tăng" data-action="inc" data-id="${item.id}">+</button>
+              <button aria-label="Xóa" data-action="del" data-id="${item.id}" style="margin-left:8px">🗑</button>
+            </div>
+          `;
+          itemsEl.appendChild(el);
+        });
+      }
+      document.getElementById('cartTotal').textContent = formatVND(cartTotal());
+    }
+
+    // Event delegation
+    document.addEventListener('click', e=>{
+      const btn = e.target.closest('button');
+      if(!btn) return;
+      // Add to cart from product list
+      if(btn.dataset.id && btn.classList.contains('btn')){
+        addToCart(Number(btn.dataset.id));
+        openCart();
+        return;
+      }
+      // Cart open/close
+      if(btn.id==='cartOpen'){ openCart(); return }
+      if(btn.id==='cartClose'){ closeCart(); return }
+      // Cart item actions
+      if(btn.dataset.action){
+        const id = Number(btn.dataset.id);
+        if(btn.dataset.action==='dec') changeQty(id,-1);
+        if(btn.dataset.action==='inc') changeQty(id,1);
+        if(btn.dataset.action==='del') removeFromCart(id);
+      }
+      if(btn.id==='checkoutBtn'){
+        if(cartTotal()===0){ alert('Giỏ hàng trống'); return }
+        alert('Mô phỏng thanh toán — tổng: ' + formatVND(cartTotal()));
+      }
+    });
+
+    // Open/close cart
+    const panel = document.getElementById('cart-panel');
+    function openCart(){ panel.classList.add('open'); document.getElementById('cartOpen').setAttribute('aria-expanded','true') }
+    function closeCart(){ panel.classList.remove('open'); document.getElementById('cartOpen').setAttribute('aria-expanded','false') }
+
+    // Search filter
+    document.getElementById('search').addEventListener('input', e=>{
+      const q = e.target.value.trim().toLowerCase();
+      if(!q) renderProducts(PRODUCTS);
+      else renderProducts(PRODUCTS.filter(p=>p.name.toLowerCase().includes(q)));
+    });
+
+    // Init
+    renderProducts(PRODUCTS);
+    updateCartUI();
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Accessibility: close cart with Escape
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeCart() });
   </script>
 </body>
 </html>
