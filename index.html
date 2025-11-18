@@ -1,258 +1,280 @@
 <!DOCTYPE html>
 
+<!doctype html>
 <html lang="vi">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Lê Văn Phong — Trang cá nhân</title>
-<link href="./style.css" rel="stylesheet"/>
-<style>
-/* Live clock widget (fixed on the right) */
-.live-clock{
-  position: fixed;
-  right: 24px;
-  top: 110px;
-  z-index: 50;
-  background: #ffffff;
-  color: #0f172a;
-  border: 1px solid rgba(2,6,23,.1);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(2,6,23,.12);
-  width: 240px;
-  padding: 12px 14px;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-}
-.live-clock .clock-row{
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-.live-clock .time{
-  font-size: 28px;
-  line-height: 1.2;
-  font-weight: 700;
-  color: #1d4ed8; /* brand blue */
-}
-.live-clock .sec{
-  font-size: 14px;
-  font-weight: 600;
-  color: #1d4ed8;
-}
-.live-clock .date{
-  margin-top: 6px;
-  font-size: 14px;
-  color: #475569; /* muted */
-}
-.live-clock .badge{
-  display:inline-block;
-  font-size: 11px;
-  background: rgba(245,158,11,.15); /* orange tint */
-  color: #b45309;
-  border: 1px solid rgba(245,158,11,.35);
-  padding: 2px 6px;
-  border-radius: 999px;
-}
-@media (max-width: 680px){
-  .live-clock{ right: 12px; top: auto; bottom: 16px; width: 200px; }
-  .live-clock .time{ font-size: 22px; }
-}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shop LÂM QUỐC ĐẠI — Responsive</title>
+  <style>
+    /* Reset + base */
+    :root{
+      --accent:#0ea5a4;
+      --muted:#6b7280;
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --shadow: 0 6px 18px rgba(2,6,23,0.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#0f172a;background:var(--bg)}
+    a{color:inherit;text-decoration:none}
 
-/* --- Hero with LEFT photo --- */
-.hero{
-  display: grid;
-  grid-template-columns: 20px 1fr; /* left photo, right content */
-  gap: 24px;
-  align-items: start;
-}
-.hero-photo-left .profile-card{
-  background: #ffffff;
-  border: 3px solid #e2e8f0;         /* visible border */
-  border-radius: 16px;
-  box-shadow: 0 10px 24px rgba(2,6,23,.08);
-  overflow: hidden;
-}
-.hero-photo-left .profile-card img{
-  display: block;
-  width: 50%;
-  height: auto;
-}
-.hero-photo-left .profile-card figcaption{
-  padding: 10px 12px;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  font-size: 14px;
-  color: #334155;
-  text-align: center;
-}
-@media (max-width: 320px){
-  .hero{ grid-template-columns: 1fr; }
-}
+    /* Container */
+    .container{max-width:1200px;margin:24px auto;padding:0 16px}
 
-</style></head>
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),#3b82f6);border-radius:10px;display:grid;place-items:center;color:white;font-weight:700}
+    nav{display:flex;gap:14px;align-items:center}
+    .nav-links{display:none}
+    .search{flex:1;max-width:420px}
+    .search input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #e6edf3}
+
+    /* Cart */
+    .actions{display:flex;gap:12px;align-items:center}
+    .cart-btn{position:relative;padding:8px 10px;border-radius:10px;background:var(--card);box-shadow:var(--shadow);cursor:pointer}
+    .cart-count{position:absolute;top:-6px;right:-6px;background:#ef4444;color:white;border-radius:999px;padding:3px 6px;font-size:12px}
+
+    /* Responsive grid */
+    .hero{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+    .hero h1{margin:0;font-size:28px}
+    .grid{display:grid;grid-template-columns:repeat(1,1fr);gap:14px}
+
+    .card{background:var(--card);padding:12px;border-radius:12px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+    .card img{width:100%;height:180px;object-fit:cover;border-radius:8px}
+    .card h3{margin:10px 0 6px;font-size:16px}
+    .price-row{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:700}
+    .btn{padding:8px 12px;border-radius:10px;border:0;background:var(--accent);color:white;cursor:pointer}
+
+    /* Cart sidebar */
+    .cart-panel{position:fixed;right:20px;top:20px;width:360px;max-width:92vw;background:var(--card);border-radius:12px;padding:12px;box-shadow:var(--shadow);transform:translateX(110%);transition:transform .25s ease;z-index:60}
+    .cart-panel.open{transform:translateX(0)}
+    .cart-item{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed #eef2f6}
+    .cart-item img{width:56px;height:56px;object-fit:cover;border-radius:8px}
+    .qty{display:flex;gap:6px;align-items:center}
+    .qty button{padding:4px 8px;border-radius:6px;border:1px solid #e6edf3;background:white;cursor:pointer}
+
+    /* Footer */
+    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:14px;padding:28px 0}
+
+    /* Media queries */
+    @media(min-width:640px){
+      .nav-links{display:flex}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .hero{flex-direction:row;align-items:center}
+    }
+    @media(min-width:1024px){
+      .grid{grid-template-columns:repeat(4,1fr)}
+    }
+
+    /* Simple accessible focus */
+    :focus{outline:3px solid rgba(14,165,164,0.18);outline-offset:2px}
+  </style>
+</head>
 <body>
-<header class="site-header">
-<div class="container header-wrap">
-<a class="brand" href="index.html">
-<div class="logo">LP</div>
-<div class="brand-text">
-<h1 class="site-title">Lê Văn Phong</h1>
-<p class="site-subtitle">Giảng viên Công nghệ thông tin</p>
-</div>
-</a>
-<nav class="main-nav">
-<a class="active" href="index.html">Trang chủ</a>
-<a href="hoctap.html">Học tập</a>
-<a href="kynangsong.html">Kỹ năng sống</a>
-</nav>
-</div>
-</header><aside aria-live="polite" class="live-clock">
-<div class="clock-row">
-<div class="time" id="clock-time">00:00</div>
-<div class="sec" id="clock-sec">00</div>
-<span class="badge">Giờ hiện tại</span>
-</div>
-<div class="date" id="clock-date">Thứ hai, 01/01/2025</div>
-</aside>
-<main class="container">
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">S</div>
+        <div>
+          <div style="font-weight:700">Shop LÂM QUỐC ĐẠI</div>
+          <div style="font-size:13px;color:var(--muted)">Thương mại điện tử — Responsive</div>
+        </div>
+      </div>
 
-  <aside class="hero-photo-left" aria-label="Ảnh cá nhân">
-    <figure class="profile-card">
-      <img src="./0J7A9935.JPG" alt="Ảnh cá nhân" />
-      <figcaption>Lê Văn Phong — Giảng viên CNTT</figcaption>
-    </figure>
+      <div style="flex:1;display:flex;gap:12px;align-items:center;justify-content:flex-end">
+        <div class="search" aria-hidden>
+          <input id="search" placeholder="Tìm sản phẩm, ví dụ: áo, giày...">
+        </div>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#">Trang chủ</a>
+          <a href="#">Sản phẩm</a>
+          <a href="#">Liên hệ</a>
+        </nav>
+        <div class="actions">
+          <button class="cart-btn" id="cartOpen" aria-expanded="false" aria-controls="cart-panel">
+            🛒 Giỏ hàng <span class="cart-count" id="cartCount">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <h1>Chọn sản phẩm yêu thích — mọi thiết bị đều đẹp</h1>
+          <p style="color:var(--muted);margin:6px 0 0">Giao diện responsive: điện thoại, máy tính bảng, desktop. Mã mẫu để bạn bắt đầu nhanh.</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="grid" id="products"></div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Cart panel -->
+  <aside class="cart-panel" id="cart-panel" role="dialog" aria-label="Giỏ hàng">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <strong>Giỏ hàng</strong>
+      <button id="cartClose" aria-label="Đóng giỏ">✖</button>
+    </div>
+    <div id="cartItems" style="max-height:56vh;overflow:auto"></div>
+    <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="color:var(--muted);font-size:13px">Tổng</div>
+        <div id="cartTotal" style="font-weight:800">0₫</div>
+      </div>
+      <div>
+        <button id="checkoutBtn" class="btn">Thanh toán</button>
+      </div>
+    </div>
   </aside>
 
-<div class="hero-text">
-<h2>Xin chào 👋</h2>
-<p>
-          Tôi là <strong>Lê Văn Phong</strong> — giảng viên ngành CNTT, đam mê giảng dạy,
-          xây dựng học liệu thực tiễn và đồng hành cùng sinh viên trong các dự án học thuật.
-        </p>
-<div class="contact-grid">
-<a class="chip" href="mailto:Lephongit.utehy@gmail.com">📧 Lephongit.utehy@gmail.com</a>
-<a class="chip" href="tel:0984509076">📞 0984 509 076</a>
-<span class="chip">🎂 10/10/1989</span>
-<span class="chip">📍 Số 15 Ngõ Khoé, Xóm Chợ, Thôn Đống, Xã Bình Minh, Hà Nội</span>
-<a class="chip" href="https://www.facebook.com/phong.levan.927?locale=vi_VN" target="_blank">🔗 Facebook</a>
-</div>
-<div class="cta-row">
-<a class="btn" href="hoctap.html">Xem tài liệu học tập</a>
-<a class="btn btn-ghost" href="kynangsong.html">Xem kỹ năng sống</a>
-</div>
-</div>
-</section>
-<section class="cards">
-<h3>Học vấn &amp; Chứng chỉ</h3>
-<div class="grid">
-<article class="card">
-<h4>Thạc sĩ CNTT — ĐH SPKT Hưng Yên</h4>
-<p>2014–2016 • Tốt nghiệp loại Khá</p>
-</article>
-<article class="card">
-<h4>Chứng chỉ</h4>
-<ul class="compact">
-<li>Tiếng Anh B1 (2016)</li>
-<li>Sư phạm dạy nghề (2019)</li>
-<li>Nghiệp vụ sư phạm GV ĐH, CĐ (2021)</li>
-</ul>
-</article>
-</div>
-</section>
-<section class="cards">
-<h3>Kinh nghiệm giảng dạy</h3>
-<div class="timeline">
-<div class="timeline-item">
-<div class="time">01/2013–09/2018</div>
-<div class="dot"></div>
-<div class="content">
-<h4>Giảng viên CNTT — CĐ Y Dược ASEAN; CĐ Công thương VN</h4>
-<p>Môn dạy: CSDL, Hệ QTCSDL, C/C++, C#, .NET, CNPM, KT máy tính, Quản lý dự án, Tin học cơ bản…</p>
-</div>
-</div>
-<div class="timeline-item">
-<div class="time">09/2018–10/2021</div>
-<div class="dot"></div>
-<div class="content">
-<h4>Giảng viên CNTT — CĐ Công nghệ Bách khoa HN</h4>
-<p>Môn dạy: CSDL, Thiết kế Web, C/C++, CNPM, KT máy tính, Quản lý dự án CNTT…</p>
-</div>
-</div>
-<div class="timeline-item">
-<div class="time">11/2021–12/2022</div>
-<div class="dot"></div>
-<div class="content">
-<h4>Giảng viên CNTT — ĐH Công nghệ Đông Á</h4>
-<p>Giảng dạy: Lập trình Web, Quản trị mạng, MMT, HTTTQL, CNPM…</p>
-</div>
-</div>
-<div class="timeline-item">
-<div class="time">01/2022–Nay</div>
-<div class="dot"></div>
-<div class="content">
-<h4>Giảng viên CNTT — ĐH Đại Nam</h4>
-<p>Thiết kế Web &amp; triển khai hệ thống phần mềm, Hệ thống máy tính, Kiến trúc &amp; HĐH, Mạng máy tính, Front-End…</p>
-</div>
-</div>
-</div>
-</section>
-<section class="cards">
-<h3>Mục tiêu nghề nghiệp</h3>
-<div class="card">
-<ul class="compact">
-<li>Nghiêm túc tự học để nâng cao chuyên môn.</li>
-<li>Tìm kiếm môi trường sư phạm để gắn bó lâu dài.</li>
-</ul>
-</div>
-</section>
-<section class="cards">
-<h3>Nghiên cứu khoa học</h3>
-<div class="card">
-<ul class="compact">
-<li>TLHT - Hệ thống máy tính Khoa CNTT - Trường Đại học Đại Nam</li>
-<li>TLHT - Thiết kế Web và triển khai hệ thống phần mềm Khoa CNTT - Trường Đại học Đại Nam</li>
-<li>Nghiên cứu, xây dựng mô hình học sâu giải quyết bài toán nhận dạng ảnh khuôn mặt 
-  thật và phục vụ quản lý nội dung trên Internet (2025) Bộ CNTT và TT </li>
-<li>Đề tài nghiên cứu mô hình học sâu giải quyết bài toán nhận dạng ảnh thời tiết (2024) Bộ CNTT và TT</li>
-</ul>
-</div>
-</section>
-</main>
-<footer class="site-footer">
-<div class="container footer-wrap">
-<p>© <span id="year"></span> Lê Văn Phong. All rights reserved.</p>
-<nav class="footer-nav">
-<a href="index.html">Trang chủ</a>
-<a href="hoctap.html">Học tập</a>
-<a href="kynangsong.html">Kỹ năng sống</a>
-</nav>
-</div>
-</footer>
-<script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-<script>
-(function(){
-  function pad(n){ return n.toString().padStart(2,'0'); }
-  function updateClock(){
-    try{
-      const now = new Date();
-      const hh = pad(now.getHours());
-      const mm = pad(now.getMinutes());
-      const ss = pad(now.getSeconds());
-      const timeEl = document.getElementById('clock-time');
-      const secEl = document.getElementById('clock-sec');
-      const dateEl = document.getElementById('clock-date');
-      if(timeEl) timeEl.textContent = hh + ":" + mm;
-      if(secEl)  secEl.textContent  = ss;
-      if(dateEl){
-        const opts = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
-        const fmt = new Intl.DateTimeFormat('vi-VN', opts);
-        dateEl.textContent = fmt.format(now);
+  <footer>
+    © <span id="year"></span> Shop LÂM QUỐC ĐẠI❤️</I> · Mẫu responsive đơn giản
+  </footer>
+
+  <script>
+    // Mẫu dữ liệu sản phẩm — bạn có thể thay bằng API
+    const PRODUCTS = [
+      {id:1,name:'Áo thun cotton',price:150000,img:'https://thoitrangbigsize.vn/wp-content/uploads/2024/05/5-44.jpg'},
+      {id:2,name:'Giày thể thao',price:650000,img:'https://product.hstatic.net/1000143422/product/830763-01007-o_rendition_ecom_b450119241634ead8a73cf2ad7b9ebde_1024x1024.png'},
+      {id:3,name:'Balo du lịch',price:420000,img:'https://cdn.kosshop.vn/upload/plupload/2024/05/balo-roncato-panama-4-0-pc-15-6-tablet-11-usb-den3184.jpg'},
+      {id:4,name:'Mũ lưỡi trai',price:120000,img:'https://image.hm.com/assets/hm/ec/29/ec2949c56fbb9f8a1a5e94d1c04ea2bd089e752a.jpg?imwidth=1260'},
+      {id:5,name:'Áo khoác',price:520000,img:'https://n7media.coolmate.me/uploads/September2025/ao-phao-day-ultrawarm-puffer-xam-sang-1.jpg?aio=w-1100'},
+      {id:6,name:'Quần jean',price:350000,img:'https://n7media.coolmate.me/uploads/December2024/quan-jeans-nam-basics-dang-slim-fit-xanh-dam-2.jpg'},
+      {id:7,name:'Đồng hồ',price:980000,img:'https://donghoduyanh.com/images/products/2021/04/15/large/t1274071109101_1618476696.jpg.webp'},
+      {id:8,name:'Tai nghe',price:300000,img:'https://sony.scene7.com/is/image/sonyglobalsolutions/WH-CH520_Product_intro_Pink_01_M?$productIntroPlatemobile$&fmt=png-alpha'}
+    ];
+
+    // State
+    const state = {cart:{}};
+
+    // Utils
+    const formatVND = v=> v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '₫';
+
+    // Render products
+    const productsEl = document.getElementById('products');
+    function renderProducts(list){
+      productsEl.innerHTML = '';
+      list.forEach(p=>{
+        const card = document.createElement('article');
+        card.className='card';
+        card.innerHTML = `
+          <img src="${p.img}" alt="${p.name}">
+          <h3>${p.name}</h3>
+          <div class="price-row">
+            <div class="price">${formatVND(p.price)}</div>
+            <button class="btn" data-id="${p.id}">Thêm vào giỏ</button>
+          </div>
+        `;
+        productsEl.appendChild(card);
+      });
+    }
+
+    // Cart logic
+    function addToCart(id){
+      const prod = PRODUCTS.find(p=>p.id===id);
+      if(!prod) return;
+      if(state.cart[id]) state.cart[id].qty +=1;
+      else state.cart[id] = { ...prod, qty:1 };
+      updateCartUI();
+    }
+    function removeFromCart(id){
+      delete state.cart[id];
+      updateCartUI();
+    }
+    function changeQty(id,delta){
+      if(!state.cart[id]) return;
+      state.cart[id].qty += delta;
+      if(state.cart[id].qty <=0) removeFromCart(id);
+      updateCartUI();
+    }
+
+    function cartTotal(){
+      return Object.values(state.cart).reduce((s,i)=>s + i.price*i.qty,0);
+    }
+
+    function updateCartUI(){
+      const count = Object.values(state.cart).reduce((s,i)=>s+i.qty,0);
+      document.getElementById('cartCount').textContent = count;
+      const itemsEl = document.getElementById('cartItems');
+      itemsEl.innerHTML = '';
+      if(count===0){
+        itemsEl.innerHTML = '<div style="color:var(--muted);padding:8px 0">Giỏ hàng trống</div>';
+      } else {
+        Object.values(state.cart).forEach(item=>{
+          const el = document.createElement('div');
+          el.className='cart-item';
+          el.innerHTML = `
+            <img src="${item.img}" alt="${item.name}">
+            <div style="flex:1">
+              <div style="font-weight:700">${item.name}</div>
+              <div style="color:var(--muted);font-size:13px">${formatVND(item.price)} x ${item.qty}</div>
+            </div>
+            <div class="qty">
+              <button aria-label="Giảm" data-action="dec" data-id="${item.id}">-</button>
+              <div style="width:28px;text-align:center">${item.qty}</div>
+              <button aria-label="Tăng" data-action="inc" data-id="${item.id}">+</button>
+              <button aria-label="Xóa" data-action="del" data-id="${item.id}" style="margin-left:8px">🗑</button>
+            </div>
+          `;
+          itemsEl.appendChild(el);
+        });
       }
-    }catch(e){ /* no-op */ }
-  }
-  updateClock();
-  setInterval(updateClock, 1000);
-})();
-</script></body>
+      document.getElementById('cartTotal').textContent = formatVND(cartTotal());
+    }
+
+    // Event delegation
+    document.addEventListener('click', e=>{
+      const btn = e.target.closest('button');
+      if(!btn) return;
+      // Add to cart from product list
+      if(btn.dataset.id && btn.classList.contains('btn')){
+        addToCart(Number(btn.dataset.id));
+        openCart();
+        return;
+      }
+      // Cart open/close
+      if(btn.id==='cartOpen'){ openCart(); return }
+      if(btn.id==='cartClose'){ closeCart(); return }
+      // Cart item actions
+      if(btn.dataset.action){
+        const id = Number(btn.dataset.id);
+        if(btn.dataset.action==='dec') changeQty(id,-1);
+        if(btn.dataset.action==='inc') changeQty(id,1);
+        if(btn.dataset.action==='del') removeFromCart(id);
+      }
+      if(btn.id==='checkoutBtn'){
+        if(cartTotal()===0){ alert('Giỏ hàng trống'); return }
+        alert('Mô phỏng thanh toán — tổng: ' + formatVND(cartTotal()));
+      }
+    });
+
+    // Open/close cart
+    const panel = document.getElementById('cart-panel');
+    function openCart(){ panel.classList.add('open'); document.getElementById('cartOpen').setAttribute('aria-expanded','true') }
+    function closeCart(){ panel.classList.remove('open'); document.getElementById('cartOpen').setAttribute('aria-expanded','false') }
+
+    // Search filter
+    document.getElementById('search').addEventListener('input', e=>{
+      const q = e.target.value.trim().toLowerCase();
+      if(!q) renderProducts(PRODUCTS);
+      else renderProducts(PRODUCTS.filter(p=>p.name.toLowerCase().includes(q)));
+    });
+
+    // Init
+    renderProducts(PRODUCTS);
+    updateCartUI();
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Accessibility: close cart with Escape
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeCart() });
+  </script>
+</body>
 </html>
